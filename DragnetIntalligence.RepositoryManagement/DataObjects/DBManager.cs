@@ -4,10 +4,11 @@ using System.Configuration;
 using Dragnet.Constants;
 using Microsoft.Extensions.Configuration;
 using System.IO;
-
+using System.Data.SqlClient;
 
 namespace Dragnet.DataObjects
 {
+    
     public class DBManager : IDBManager, IDisposable
     {
 
@@ -38,7 +39,7 @@ namespace Dragnet.DataObjects
 
         //-----------------
 
-        public readonly string _connectionString = string.Empty;
+       public readonly string _connectionString = string.Empty;
         public DBManager()//default connection
         {
             //get the provicer type from the web.config file
@@ -592,6 +593,30 @@ namespace Dragnet.DataObjects
             }
             catch (Exception ex)
             { throw ex; }
+        }
+      //  public  string connectionString = string.Empty;
+        public DataSet GetDataSet(string Query)
+        {
+            string typeOfProvider = "SqlServer";
+            //  get the provider type passed from the sql server
+            SetProviderType(typeOfProvider);
+            // get the connection string
+
+
+
+            var configurationBuilder = new ConfigurationBuilder();
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json");
+            configurationBuilder.AddJsonFile(path, false);
+
+            var root = configurationBuilder.Build();
+            SqlConnection connectionString = new SqlConnection(root.GetSection("Tec").GetSection("ConnectionStringTec").Value);
+            this.ConnectionString = root.GetSection("Tec").GetSection("ConnectionStringTec").Value;
+            SqlDataAdapter da = new SqlDataAdapter();
+            DataSet ds = new DataSet();
+            da.SelectCommand = new SqlCommand(Query, connectionString);
+            da.SelectCommand.CommandTimeout = 2 * 60;
+            da.Fill(ds, "Data");
+            return ds;
         }
     }
 }

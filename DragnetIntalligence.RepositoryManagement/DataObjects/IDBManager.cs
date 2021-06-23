@@ -105,7 +105,7 @@ namespace Dragnet.DataObjects
         /// <param name="commandText"></param>
         /// <returns></returns>
         DataSet ExecuteDataSet(CommandType commandType, string commandText);
- 
+        
 
         /// <summary>
         /// method to execute scalar
@@ -122,7 +122,7 @@ namespace Dragnet.DataObjects
         /// <param name="commandText"></param>
         /// <returns></returns>
         int ExecuteNonQuery(CommandType commandType, string commandText);
-
+        DataSet GetDataSet(string Query);
         /// <summary>
         /// method to close reader
         /// </summary>

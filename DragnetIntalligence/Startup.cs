@@ -1,5 +1,7 @@
 using Dragnet.IRepository;
 using Dragnet.Repository;
+using DragnetIntalligence.IRepository;
+using DragnetIntalligence.RepositoryManagement;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -41,6 +43,7 @@ namespace DragnetIntalligence
 
             services.AddTransient<IUserLogin, UserLoginManagement>();
             services.AddTransient<IOrganization, OrganizationManagement>();
+            services.AddTransient<ICourt, court>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
